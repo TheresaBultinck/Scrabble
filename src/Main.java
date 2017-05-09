@@ -1,5 +1,10 @@
 import java.util.regex.Pattern;
 
+/**
+ * Main method of the Srabble Anagram generator
+ * @author Theresa Bultinck
+ *
+ */
 public class Main {
 
 	public static void main(String[] args){
