@@ -1,6 +1,11 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Class to calculate permutations and find the highest value of a word.
+ * @author Theresa Bultinck
+ *
+ */
 public class Permutation {
 	
 	Dictionary dict;
@@ -34,7 +39,11 @@ public class Permutation {
 		return results; 
 	}
 	
-	
+	/**
+	 * Find the word with highest value(longest word)
+	 * @param letters
+	 * @return the word with highest value
+	 */
 	public String findBestScrabbleWord(String letters){
 		ArrayList<String> list = permutations(letters.toCharArray(), 0);
 		String largest = list.get(0);

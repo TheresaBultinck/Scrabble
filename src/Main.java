@@ -1,7 +1,7 @@
 import java.util.regex.Pattern;
 
 /**
- * Main method of the Srabble Anagram generator
+ * Main method of the Scrabble Anagram generator
  * @author Theresa Bultinck
  *
  */

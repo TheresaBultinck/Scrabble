@@ -19,7 +19,7 @@ public class Dictionary {
 	private String[] dictionary; 
 	private Comparator<String> matchingComparator = new Comparator<String>(){
 
-		//enkel begin gelijk aan elkaar
+		//Compare if beginning is equal to each other
 		@Override
 		public int compare(String dictionaryItem, String beginWord) {
 			if (dictionaryItem.startsWith(beginWord))
@@ -66,7 +66,7 @@ public class Dictionary {
 	}
 	
 	/**
-	 * In O(log n) zoeken of woord in dictionary staat. 
+	 * Search in O(log n) time if the word exists.
 	 * @param word
 	 * @return true if it exists and false otherwise
 	 */
