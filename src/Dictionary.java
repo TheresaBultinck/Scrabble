@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.LineNumberReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.regex.Pattern;
 
 /**
@@ -13,28 +16,44 @@ import java.util.regex.Pattern;
  */
 public class Dictionary {
 	
-	private ArrayList<String> dictionary; 
+	private String[] dictionary; 
+	private Comparator<String> matchingComparator = new Comparator<String>(){
+
+		//enkel begin gelijk aan elkaar
+		@Override
+		public int compare(String dictionaryItem, String beginWord) {
+			if (dictionaryItem.startsWith(beginWord))
+				return 0;
+			return dictionaryItem.compareTo(beginWord);
+		}
+	};
 	
 	public Dictionary(String path){
-		dictionary = new ArrayList<String>();
-		fileReader(path);
+		dictionary = fileReader(path);
+		Arrays.sort(dictionary);
 	}
 
 	/**
 	 * Reads in the file with the english words. 
 	 * @param path this is the name of the file you want to read in, for example: "english-words/words.txt"
 	 */
-	private void fileReader(String path){
+	private String[] fileReader(String path){
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(path));
-			String line = br.readLine();
-		    while (line != null) {
-		        dictionary.add(line);
-		        line = br.readLine();
+			FileReader fr = new FileReader(path);
+			LineNumberReader ln = new LineNumberReader(fr); //ieder lijn inlezen
+			ln.skip(Long.MAX_VALUE); //skippen tot het einde
+			int lines = ln.getLineNumber(); 
+			String[] result = new String[lines];
+			fr = new FileReader(path);
+			BufferedReader br = new BufferedReader(fr);
+		    for (int i = 0; i < lines; i++) {
+		        result[i] = br.readLine();
 		    }
+		    return result; 
 		} catch (IOException e) {
 				e.printStackTrace();
 		} 
+		return new String[]{};
 	}
 	
 	/**
@@ -43,12 +62,21 @@ public class Dictionary {
 	 * @return true if the word exists and false if it doesn't exist in the list of English words
 	 */
 	public boolean existInDictionary(String beginWord){
-		Pattern p = Pattern.compile(beginWord + ".*");
-		  for (String s : dictionary) {
-		    if (p.matcher(s).matches()) {
-		      return true;
-		    }
-		  }
-		  return false;
+		return checkPointer(Arrays.binarySearch(dictionary, beginWord, matchingComparator));
+	}
+	
+	/**
+	 * In O(log n) zoeken of woord in dictionary staat. 
+	 * @param word
+	 * @return true if it exists and false otherwise
+	 */
+	public boolean isWord(String word){
+		return checkPointer(Arrays.binarySearch(dictionary, word));
+	}
+	
+	private boolean checkPointer(int pointer){
+		if(pointer < 0){
+			return false; 
+		} else return true; 
 	}
 }
